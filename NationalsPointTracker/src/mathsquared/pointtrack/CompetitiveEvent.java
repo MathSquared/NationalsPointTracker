@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a single event, or category of points. Read from {@code events} on program start.
+ * Represents a single event, or category of points. Read from {@code events} on program start using the {@link #load(BufferedReader)} method.
  * 
  * @author alex
  *
