@@ -20,11 +20,39 @@ public class ResultCell {
 	/**
 	 * Creates a new ResultsCell for a school.
 	 * 
-	 * @param ent the number of entries this school submitted for this event
-	 * @param brk the number of students breaking to each elimination round (copied by the constructor), one by one, not including finals. For instance, a tournament with quarterfinals would have two entries in this array, one for quarters and one for semis. A null value for this parameter is treated the same as an empty array (i.e. the tournament broke straight to finals).
-	 * @param plc the places the school earned in this event (cloned by the constructor); this is one-based, bit 0 must be false, and the {@linkplain BitSet#cardinality() cardinality} of the set is treated as the number of finalists
+	 * @param ent the number of entries this school submitted for this event; this must be non-negative
+	 * @param brk the number of students breaking to each elimination round (copied by the constructor), one by one, not including finals; the entries must be not greater than {@code ent}, non-negative, and monotonically non-increasing. For instance, a tournament with quarterfinals would have two entries in this array, one for quarters and one for semis. A null value for this parameter is treated the same as an empty array (i.e. the tournament broke straight to finals).
+	 * @param plc the places the school earned in this event (cloned by the constructor); this is one-based, bit 0 must be false, and the {@linkplain BitSet#cardinality() cardinality} of the set is treated as the number of finalists and must be not greater than the last element of {@code brk}
 	 */
 	public ResultCell (int ent, int[] brk, BitSet plc) {
+		// Consistency checking //
+		
+		if (ent < 0) {
+			throw new IllegalArgumentException("ent must be non-negative: you submitted" + ent);
+		}
+		
+		// check monotonically decreasing
+		int prevX = ent; // start at ent because no entry here should be above it; that way, we don't have to compare each entry to ent because it should be decreasing from there
+		for (int x : brk) {
+			if (x > prevX) {
+				throw new IllegalArgumentException("brk must be monotonically non-increasing: illegal transition from " + prevX + " to " + x);
+			}
+			
+			prevX = x;
+		}
+		// now, prevX contains the last entry in the array
+		
+		// check plc.cardinality against it
+		if (plc.cardinality() > prevX) {
+			throw new IllegalArgumentException("there must not be more finalists than semifinalists: this school went " + plc.cardinality() + " for " + prevX);
+		}
+		
+		// ensure !plc.get(0)
+		if (plc.get(0)) {
+			throw new IllegalArgumentException("this school did better than first place: they got zeroth place!");
+		}
+		
+		
 		entries = ent;
 		breaks = Arrays.copyOf(brk, brk.length);
 		places = (BitSet) plc.clone();
