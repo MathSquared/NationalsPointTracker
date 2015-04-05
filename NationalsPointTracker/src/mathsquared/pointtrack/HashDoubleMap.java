@@ -109,7 +109,7 @@ public class HashDoubleMap <K, L, V> {
 		if (!containsKey1(key1)) {
 			hash.put(key1, new HashMap<L, V>());
 		}
-		return hash.get(key1).put(key2, val);
+		return getKey1(key1).put(key2, val);
 	}
 	
 	public V remove (Object key1, Object key2) {
