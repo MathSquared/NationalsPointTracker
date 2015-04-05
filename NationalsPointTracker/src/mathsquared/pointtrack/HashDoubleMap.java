@@ -104,4 +104,11 @@ public class HashDoubleMap <K, L, V> {
 		if (!containsKey1(key1)) return null;
 		return getKey1(key1).get(key2);
 	}
+	
+	public V put (K key1, L key2, V val) {
+		if (!containsKey1(key1)) {
+			hash.put(key1, new HashMap<L, V>());
+		}
+		return hash.get(key1).put(key2, val);
+	}
 }
