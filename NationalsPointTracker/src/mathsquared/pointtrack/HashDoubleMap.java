@@ -17,4 +17,8 @@ public class HashDoubleMap <K, L, V> {
 	public HashDoubleMap () {
 		hash = new HashMap<>();
 	}
+	
+	public void clear () {
+		hash.clear();
+	}
 }
