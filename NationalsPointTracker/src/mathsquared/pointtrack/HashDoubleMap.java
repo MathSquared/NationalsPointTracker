@@ -4,6 +4,7 @@
 package mathsquared.pointtrack;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A data structure based on {@link HashMap} that allows for two indices at a time. This is implemented as a hash map of hash maps.
@@ -51,6 +52,40 @@ public class HashDoubleMap <K, L, V> {
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Given a first key, returns a map that can be indexed by the second key to return the corresponding value.
+	 * 
+	 * Modifying this map will in turn modify the backing doublemap.
+	 * 
+	 * @param key the first key
+	 * @return a mapping from the second key to the value given by the first key given here and the second key in that map
+	 */
+	public HashMap<L, V> getKey1 (Object key) {
+		return hash.get(key);
+	}
+	
+	/**
+	 * Given a second key, returns a map that can be indexed by the first key to return the corresponding value.
+	 * 
+	 * This is <strong>slow</strong> since it must iterate over all of the first keys.
+	 * 
+	 * Modifying this map will <strong>not</strong> modify the backing doublemap.
+	 * 
+	 * @param key the second key
+	 * @return a mapping from the first key to the value given by the first key in that map and the second key given here
+	 */
+	public HashMap<K, V> getKey2 (Object key) {
+		HashMap<K, V> ret = new HashMap<>();
+		
+		for (Map.Entry<K, HashMap<L, V>> entry : hash.entrySet()) {
+			if (entry.getValue().containsKey(key)) {
+				ret.put(entry.getKey(), entry.getValue().get(key));
+			}
+		}
+		
+		return ret;
 	}
 	
 	public V get (Object key1, Object key2) {
