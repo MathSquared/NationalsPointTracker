@@ -30,7 +30,7 @@ public class HashDoubleMap <K, L, V> {
 	 * @param key the key to check
 	 * @return true if there is at least one mapping with {@code key} as the first key
 	 */
-	public boolean containsKey1 (K key) {
+	public boolean containsKey1 (Object key) {
 		// Can't naively test the parent map in case of empty sub-maps
 		
 		HashMap<L, V> comp = hash.get(key);
@@ -45,7 +45,7 @@ public class HashDoubleMap <K, L, V> {
 	 * @param key the key to check
 	 * @return true if there is at least one mapping with {@code key} as the second key
 	 */
-	public boolean containsKey2 (L key) {
+	public boolean containsKey2 (Object key) {
 		for (HashMap<L, V> comp : hash.values()) {
 			if (comp.containsKey(key)) return true;
 		}
