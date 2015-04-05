@@ -52,4 +52,9 @@ public class HashDoubleMap <K, L, V> {
 		
 		return false;
 	}
+	
+	public V get (Object key1, Object key2) {
+		if (!containsKey1(key1)) return null;
+		return hash.get(key1).get(key2);
+	}
 }
