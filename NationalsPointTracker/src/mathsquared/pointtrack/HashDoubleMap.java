@@ -34,7 +34,7 @@ public class HashDoubleMap <K, L, V> {
 	public boolean containsKey1 (Object key) {
 		// Can't naively test the parent map in case of empty sub-maps
 		
-		HashMap<L, V> comp = hash.get(key);
+		HashMap<L, V> comp = getKey1(key);
 		return (comp != null && !comp.isEmpty());
 	}
 	
@@ -90,6 +90,6 @@ public class HashDoubleMap <K, L, V> {
 	
 	public V get (Object key1, Object key2) {
 		if (!containsKey1(key1)) return null;
-		return hash.get(key1).get(key2);
+		return getKey1(key1).get(key2);
 	}
 }
