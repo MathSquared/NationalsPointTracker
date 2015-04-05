@@ -86,6 +86,6 @@ public class ResultCell {
 	 * @return
 	 */
 	public BitSet getPlaces() {
-		return (BitSet) places.clone();
+		return places == null ? null : (BitSet) places.clone();
 	}
 }
