@@ -55,6 +55,18 @@ public class HashDoubleMap <K, L, V> {
 	}
 	
 	/**
+	 * Tests for whether this doublemap contains a mapping with the given objects as first and second keys.
+	 * 
+	 * @param key1 the first key to check
+	 * @param key2 the second key to check
+	 * @return true if there is a mapping with the given keys
+	 */
+	public boolean contains (Object key1, Object key2) {
+		if (!containsKey1(key1)) return false;
+		return getKey1(key1).containsKey(key2);
+	}
+	
+	/**
 	 * Given a first key, returns a map that can be indexed by the second key to return the corresponding value.
 	 * 
 	 * Modifying this map will in turn modify the backing doublemap.
