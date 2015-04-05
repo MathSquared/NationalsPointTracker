@@ -111,4 +111,18 @@ public class HashDoubleMap <K, L, V> {
 		}
 		return hash.get(key1).put(key2, val);
 	}
+	
+	public V remove (Object key1, Object key2) {
+		if (!containsKey1(key1)) {
+			return null;
+		}
+		V ret = getKey1(key1).remove(key2);
+		
+		// remove empty sub-maps
+		if (getKey1(key1).isEmpty()) {
+			hash.remove(key1);
+		}
+		
+		return ret;
+	}
 }
