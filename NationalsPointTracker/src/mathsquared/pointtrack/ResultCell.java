@@ -21,8 +21,8 @@ public class ResultCell {
 	 * Creates a new ResultsCell for a school.
 	 * 
 	 * @param ent the number of entries this school submitted for this event; this must be non-negative
-	 * @param brk the number of students breaking to each elimination round (copied by the constructor), one by one, not including finals; the entries must be not greater than {@code ent}, non-negative, and monotonically non-increasing. For instance, a tournament with quarterfinals would have two entries in this array, one for quarters and one for semis. A null value for this parameter is treated the same as an empty array (i.e. the tournament broke straight to finals).
-	 * @param plc the places the school earned in this event (cloned by the constructor); this is one-based, bit 0 must be false, and the {@linkplain BitSet#cardinality() cardinality} of the set is treated as the number of finalists and must be not greater than the last element of {@code brk}
+	 * @param brk the number of students breaking to each elimination round (copied by the constructor), one by one, including finals; the entries must be not greater than {@code ent}, non-negative, and monotonically non-increasing. For instance, a tournament with quarterfinals would have three entries in this array, one for quarters and one for semis. A null value for this parameter is illegal.
+	 * @param plc the places the school earned in this event (cloned by the constructor); this is one-based, bit 0 must be false, and the {@linkplain BitSet#cardinality() cardinality} of the set is treated as the number of finalists and must match the last element of {@code brk}
 	 */
 	public ResultCell (int ent, int[] brk, BitSet plc) {
 		// Consistency checking //
@@ -43,8 +43,8 @@ public class ResultCell {
 		// now, prevX contains the last entry in the array
 		
 		// check plc.cardinality against it
-		if (plc.cardinality() > prevX) {
-			throw new IllegalArgumentException("there must not be more finalists than semifinalists: this school went " + plc.cardinality() + " for " + prevX);
+		if (plc.cardinality() == prevX) {
+			throw new IllegalArgumentException("cardinality of places must match finalists: " + plc.cardinality() + " places for " + prevX + " finalists");
 		}
 		
 		// ensure !plc.get(0)
