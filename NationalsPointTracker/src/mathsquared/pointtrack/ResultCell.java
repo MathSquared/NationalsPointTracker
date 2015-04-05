@@ -21,7 +21,7 @@ public class ResultCell {
 	 * Creates a new ResultsCell for a school.
 	 * 
 	 * @param ent the number of entries this school submitted for this event; this must be non-negative
-	 * @param brk the number of students breaking to each elimination round (copied by the constructor), one by one, including finals; the entries must be not greater than {@code ent}, non-negative, and monotonically non-increasing. For instance, a tournament with quarterfinals would have three entries in this array, one for quarters, one for semis, and one for finals. A null value for this parameter is illegal.
+	 * @param brk the number of students breaking to each elimination round (copied by the constructor), one by one, including finals; the entries must be not greater than {@code ent}, non-negative, and monotonically non-increasing. For instance, a tournament with quarterfinals would have three entries in this array, one for quarters, one for semis, and one for finals. A null value for this parameter is illegal. A value of -1 indicates that breaks for this round are currently unknown; in this case, if a round is marked as -1, all following rounds must also be -1.
 	 * @param plc the places the school earned in this event (cloned by the constructor); this is one-based, bit 0 must be false, and the {@linkplain BitSet#cardinality() cardinality} of the set is treated as the number of finalists and must match the last element of {@code brk}; this may be null if awards haven't happened yet
 	 */
 	public ResultCell (int ent, int[] brk, BitSet plc) {
@@ -36,6 +36,10 @@ public class ResultCell {
 		for (int x : brk) {
 			if (x > prevX) {
 				throw new IllegalArgumentException("brk must be monotonically non-increasing: illegal transition from " + prevX + " to " + x);
+			}
+			
+			if (x < -1) {
+				throw new IllegalArgumentException("breaks in a round must be non-negative or -1 for missing: in other words, not " + x);
 			}
 			
 			prevX = x;
